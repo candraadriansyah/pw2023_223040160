@@ -8,12 +8,19 @@ if (!isset($_SESSION["login"])) {
 
 require '../php/functions.php';
 
-$tampil = query("SELECT b.*, k.*, b.id as id_brg 
-FROM barang b 
-JOIN kategori k 
-ON b.kategori_id = k.id");
+if (isset($_POST["cari"])) {
+    $keyword = $_POST["keyword"];
+    $tampil = cari($keyword);
+} else {
+    $tampil = query("SELECT b.*, k.*, b.id as id_brg 
+        FROM barang b 
+        JOIN kategori k 
+        ON b.kategori_id = k.id");
+}
+
 $i = 0;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,12 +43,18 @@ $i = 0;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print">
         <a class="navbar-brand" href="#">Candra tech</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,9 +75,24 @@ $i = 0;
     </nav>
 
     <div class="container-fluid">
-        <h1 class="mb-4">Daftar Barang</h1>
 
-        <div class="table-responsive">
+        <div class="container-fluid row no-print">
+            <div class="col-6">
+                <h1 class="mb-4">Daftar Barang </h1>
+            </div>
+            <div class="col-6">
+                <span>
+                    <form action="" method="post">
+                        <input type="text" name="keyword" class="keyword" placeholder="Cari disini.." data-role="input" autofocus>
+                        <button type="submit" name="cari" class="button secondary outline tombol-cari"><i class="fas fa-search"></i></button>
+                    </form>
+                </span>
+            </div>
+        </div>
+
+        <button class="btn btn-danger m-5 no-print" onclick="window.print()">Print</button>
+
+        <div class="table-responsive admin-container">
             <table class="table">
                 <thead>
                     <tr>
@@ -78,10 +106,8 @@ $i = 0;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    foreach ($tampil as $b) :
-                        $i++;
-                    ?>
+                    <?php foreach ($tampil as $b) : ?>
+                        <?php $i++; ?>
                         <tr>
                             <td><?= $i; ?></td>
                             <td><img width="150px" src="../assets/img/<?= $b['gambar']; ?>"></td>
@@ -100,9 +126,7 @@ $i = 0;
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/6dd84d01cb.js" crossorigin="anonymous"></script>
+    <script src="../assets/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr

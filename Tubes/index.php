@@ -45,6 +45,13 @@ ON b.kategori_id = k.id");
       border-radius: 10px !important;
       overflow: hidden;
     }
+
+    @media (max-width: 700px) {
+      .kecil img {
+
+        width: 80% !important;
+      }
+    }
   </style>
 </head>
 
@@ -66,9 +73,6 @@ ON b.kategori_id = k.id");
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#Items">Items</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#Contact">Contact</a>
           </li>
           <li class="nav-item">
             <button class="btn btn-danger ms-2">
@@ -93,7 +97,7 @@ ON b.kategori_id = k.id");
     <div class="container mt-5">
       <h1>About</h1>
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-sm-12">
           <p>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit.
             Molestiae, beatae vel. Repellat expedita sed nisi nulla eligendi,
@@ -115,7 +119,7 @@ ON b.kategori_id = k.id");
             Laudantium eos repellat magnam, itaque nemo minima.
           </p>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-sm-12 kecil">
           <img src="assets/img/camera.jpg" alt="camera" />
         </div>
       </div>
@@ -127,47 +131,39 @@ ON b.kategori_id = k.id");
   <div id="Items">
     <div class="container mt-5">
       <h1 class="text-center">Items</h1>
-      <div class="row mt-5">
-        <?php foreach ($tampil as $brg) : ?>
-          <div class="col-lg-4 ">
-            <div class="card border border-secondary shadow">
-              <img src="assets/img/<?= $brg['gambar']; ?>" class="card-img-top" alt="fix" />
-              <div class="card-body">
-                <h5 class="card-title"><?= $brg['nama']; ?></h5>
-                <p class="card-text top mb-5 text-secondary">
-                  <small><?= $brg['kategori']; ?></small>
-                </p>
-                <a href="web/detail-item.php?id=<?= $brg['id_brg']; ?>" class="btn btn-primary">Details</a>
+
+      <div class="row mb-5 mt-5">
+        <div class="col-md-6">
+          <form action="" method="get">
+            <div class="input-group">
+              <input type="search" class="form-control" name="keyword" id="keyword" form-control" placeholder="Search students" autofocus autocomplete="off">
+              <button class="btn btn-primary" name="search" id="search-button" type="submit" id="button-addon2">Search</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="search-container">
+        <div class="row mt-5">
+          <?php foreach ($tampil as $brg) : ?>
+            <div class="col-lg-4 ">
+              <div class="card border border-secondary shadow">
+                <img src="assets/img/<?= $brg['gambar']; ?>" class="card-img-top" alt="fix" />
+                <div class="card-body">
+                  <h5 class="card-title"><?= $brg['nama']; ?></h5>
+                  <p class="card-text top mb-5 text-secondary">
+                    <small><?= $brg['kategori']; ?></small>
+                  </p>
+                  <a href="web/detail-item.php?id=<?= $brg['id_brg']; ?>" class="btn btn-primary">Details</a>
+                </div>
               </div>
             </div>
-          </div>
-        <?php endforeach; ?>
+          <?php endforeach; ?>
+        </div>
       </div>
     </div>
   </div>
   <!-- Items End -->
 
-  <!-- Contact -->
-  <div id="Contact">
-    <div class="container mt-5">
-      <h1 class="text-center">Contact</h1>
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <form action="">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" placeholder="name@example.com" />
-            </div>
-            <div class="mb-3">
-              <label for="pesan" class="form-label">Example textarea</label>
-              <textarea class="form-control" id="pesan" rows="10"></textarea>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Contact End -->
 
   <!-- Footer -->
   <div id="Footer" class="bg-dark py-5 mt-5">
@@ -177,6 +173,21 @@ ON b.kategori_id = k.id");
   </div>
   <!-- Footer end -->
 
+  <script>
+    const keyword = document.getElementById("keyword");
+    const searchContainer = document.getElementById("search-container");
+
+    keyword.addEventListener("keyup", function() {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          searchContainer.innerHTML = xhr.responseText;
+        }
+      };
+      xhr.open("GET", "ajax/search.php?keyword=" + keyword.value, true);
+      xhr.send();
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 

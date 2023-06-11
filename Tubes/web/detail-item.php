@@ -58,8 +58,8 @@ WHERE b.id = $id")[0];
     </nav>
 
 
-    <div class="card d-flex justify-content-center m-auto border-2 border-dark shadow rounded-3" style="max-width: 540px;">
-        <div class="row g-0 ">
+    <div class="card d-flex justify-content-center m-auto border-2 border-dark shadow rounded-3" style="max-width: 100%;">
+        <div class="container row g-0 ">
             <div class="col-md-4">
                 <img src="../assets/img/<?= $brg['gambar']; ?>" class="img-fluid rounded-start" alt="...">
             </div>

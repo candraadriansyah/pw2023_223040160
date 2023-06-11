@@ -143,3 +143,15 @@ function hapus($id)
 
     return mysqli_affected_rows($conn);
 }
+
+function cari($keyword)
+{
+    // Kode untuk mencari data barang berdasarkan keyword
+    $query = "SELECT b.*, k.*, b.id as id_brg
+        FROM barang b
+        JOIN kategori k
+        ON b.kategori_id = k.id
+        WHERE nama LIKE '%$keyword%' OR brand LIKE '%$keyword%' OR deskripsi LIKE '%$keyword%'";
+
+    return query($query);
+}
